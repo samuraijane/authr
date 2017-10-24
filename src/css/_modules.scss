@@ -1,0 +1,99 @@
+.listitems,
+.individual {
+  border: 1px solid lightgray;
+  display: inline-block;
+  margin: 30px 10% 0 0;
+  max-width: 600px;
+  padding: 18px;
+  vertical-align: top;
+  width: 50%;
+}
+
+.listitems {
+  min-height: 211px;
+}
+
+div {
+  .listitem & {
+    display: inline-block;
+    margin: 8px 0;
+    &.h {
+      font-size: 0.875rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+  }
+}
+
+input {
+  .individual & {
+    border: none;
+    background: #f5f5f5;
+    display: block;
+    margin: 6px 0;
+    outline: none;
+    padding: 8px 14px;
+    width: 100%;
+    &.e {
+
+    }
+  }
+}
+
+button {
+  .listitem &,
+  .individual &,
+  .createone & {
+    background: #007db8;
+    border: none;
+    color: white;
+    font-size: 0.775rem;
+    font-weight: 700;
+    margin: 0 4px;
+    outline: none;
+    padding: 4px 12px;
+    @include transition($animate * 2);
+    &:hover {
+      background: crimson;
+    }
+  }
+}
+
+.buttonwrap {
+  margin: 26px 0 8px;
+  text-align: center;
+}
+
+button {
+  .individual & {
+    font-size: 1.0rem;
+    min-width: 80px;
+  }
+}
+
+.name {
+  width: 30%;
+}
+
+.active {
+  width: 16%;
+}
+
+.age {
+  width: 12%;
+}
+
+.individual {
+  border: none;
+  margin-right: 0;
+  width: 28%;
+  @include transition($animate * 2)
+  &.active {
+    border: 1px solid lightgray;
+  }
+}
+
+.createone {
+  margin-top: 30px;
+}

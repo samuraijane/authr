@@ -1,0 +1,37 @@
+{
+  "name": "authr",
+  "version": "1.0.0",
+  "description": "authR is a simple application to teach the basics of authentication.",
+  "main": "index.js",
+  "scripts": {
+    "start": "server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samuraijane/authr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/samuraijane/authr/issues"
+  },
+  "homepage": "https://github.com/samuraijane/authr#readme",
+  "dependencies": {
+  "body-parser": "^1.17.2",
+  "express": "^4.15.3",
+  "jquery": "^3.2.1",
+  "mongoose": "^4.10.6",
+  "morgan": "^1.8.2"
+},
+"devDependencies": {
+  "gulp": "^3.9.1",
+  "gulp-concat": "^2.6.1",
+  "gulp-livereload": "^3.8.1",
+  "gulp-ng-annotate": "^2.0.0",
+  "gulp-nodemon": "^2.2.1",
+  "gulp-sass": "^3.1.0",
+  "gulp-sourcemaps": "^2.6.0"
+}
+}
