@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
-const {Character} = require('./models');
+const {Character} = require('./model');
 
 router.delete('/:id', (req, res) => {
   Character
@@ -103,4 +103,4 @@ router.put('/:id', (req, res) => {  //p002
     });
 });
 
-module.exports = router;
+module.exports = {router};
