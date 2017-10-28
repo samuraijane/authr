@@ -7,10 +7,10 @@
       app.createOne();
       app.deleteOne();
       app.doCancel();
+      app.doLogin();
       app.getAllRecords();
       app.getOne();
       app.getProtected();
-      app.loginHandler();
       app.logoutHandler();
       app.openCreate();
       app.putOne();
@@ -81,6 +81,13 @@
       $('#showOne').on('click', '.cancel', (e) => {
         e.preventDefault();
         app.cancel();
+      });
+    },
+    doLogin: () => {
+      $(document).on('submit', '#login-submit', (e) => {
+        e.preventDefault();
+        app.loginHandler()
+          .then(app.loadEndpoint);
       });
     },
     getAllRecords: () => {
@@ -189,38 +196,58 @@
         $(target).html(data);
       });
     },
-    loginHandler: () => {
-      $(document).on('submit', '#login-submit', (e) => {
-        e.preventDefault();
-        let _body = {
-          username: $('#login-username').val(),
-          password: $('#login-password').val()
-        };
-        let promise = new Promise((res, rej) => {
-          $.ajax({
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(_body),
-            headers: {
-              "accept": "application/json; odata=verbose",
-            },
-            type: 'POST',
-            url: `${app.baseUrl}/auth/login`,
-            success: (data) => {
-              app.name = `${data.profile.firstName} ${data.profile.lastName}`;
-              $('#login-username').val('');
-              $('#login-password').val('');
-              localStorage.setItem('jwToken', data.profile.token);
-              console.log(`Welcome ${app.name}! You are now logged in.`);
-              res();
-            },
-            error: (error) => {
-              console.log(error);
-              rej();
-            }
-          });
+    loadEndpoint: () => {
+      let _token = `Bearer ${localStorage.getItem('jwToken')}`;
+      let promise = new Promise((res, rej) => {
+        $.ajax({
+          // beforeSend: (req) => { req.setRequestHeader("Authorization", app.token) },
+          headers: {
+            "accept": "application/json; odata=verbose",
+            "Authorization": _token
+          },
+          type: 'GET',
+          url: `${app.baseUrl}/protected`,
+          success: (item) => {
+            app.loadPage('protected');
+            res();
+          },
+          error: (error) => {
+            console.log(error);
+            rej();
+          }
         });
-        return promise;
       });
+      return promise;
+    },
+    loginHandler: () => {
+      let _body = {
+        username: $('#login-username').val(),
+        password: $('#login-password').val()
+      };
+      let promise = new Promise((res, rej) => {
+        $.ajax({
+          contentType: "application/json; charset=utf-8",
+          data: JSON.stringify(_body),
+          headers: {
+            "accept": "application/json; odata=verbose",
+          },
+          type: 'POST',
+          url: `${app.baseUrl}/auth/login`,
+          success: (data) => {
+            app.name = `${data.profile.firstName} ${data.profile.lastName}`;
+            $('#login-username').val('');
+            $('#login-password').val('');
+            localStorage.setItem('jwToken', data.profile.token);
+            console.log(`Welcome ${app.name}! You are now logged in.`);
+            res();
+          },
+          error: (error) => {
+            console.log(error);
+            rej();
+          }
+        });
+      });
+      return promise;
     },
     logoutHandler: () => {
       $(document).on('submit', '#do-logout', (e) => {

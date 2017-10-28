@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
+const path = require('path');
 
 mongoose.Promise = global.Promise;
 
@@ -51,7 +52,9 @@ app.use('/auth', authRouter);
 
 app.get('/protected', passport.authenticate('jwt', {
   session: false}), (req, res) => {
-    return res.json({data: 'rosebud'});
+    // res.sendFile(path.join(__dirname+'/src/views/protected.html'));
+    // res.json({is: 'working'});
+    res.sendFile(__dirname+'/src/views/protected.html');
   }
 );
 
