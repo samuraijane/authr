@@ -13,6 +13,65 @@ h1 {
   font-size: 2rem;
 }
 
+
+/*----------------------------------------------------------------------------
+  Form Elements
+----------------------------------------------------------------------------*/
+button {
+  .listitem &,
+  .individual &,
+  .createone & {
+    background: #007db8;
+    border: none;
+    color: white;
+    font-size: 0.775rem;
+    font-weight: 700;
+    margin: 0 4px;
+    outline: none;
+    padding: 4px 12px;
+    @include transition($animate * 2);
+    &:hover {
+      background: crimson;
+    }
+  }
+}
+
+button {
+  .individual & {
+    font-size: 1.0rem;
+    min-width: 80px;
+  }
+}
+
+input {
+  display: block;
+  outline: none;
+  margin: 6px 0;
+}
+
+input[type="submit"] {
+  background: crimson;
+  border: 1px solid transparent;
+  color: white;
+  font-weight: 700;
+  padding: 4px 16px;
+}
+
+input {
+  .individual & {
+    border: none;
+    background: #f5f5f5;
+    display: block;
+    margin: 6px 0;
+    outline: none;
+    padding: 8px 14px;
+    width: 100%;
+    &.e {
+
+    }
+  }
+}
+
 /*----------------------------------------------------------------------------
   HTML
 ----------------------------------------------------------------------------*/

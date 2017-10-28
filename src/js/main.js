@@ -8,8 +8,11 @@
       app.doCancel();
       app.getAllRecords();
       app.getOne();
+      app.getProtected();
+      app.loginHandler();
       app.openCreate();
       app.putOne();
+      app.signUpHandler();
     },
     cancel: () => {
       $('#showOne').empty().removeClass('active');
@@ -150,6 +153,71 @@
         return promise;
       });
     },
+    getProtected: () => {
+      $(document).on('submit', '#get-protected', (e) => {
+        e.preventDefault();
+        let _token = `Bearer ${localStorage.getItem('jwToken')}`;
+        let promise = new Promise((res, rej) => {
+          $.ajax({
+            // beforeSend: (req) => { req.setRequestHeader("Authorization", app.token) },
+            headers: {
+              "accept": "application/json; odata=verbose",
+              "Authorization": _token
+            },
+            type: 'GET',
+            url: `${app.baseUrl}/protected`,
+            success: (item) => {
+              console.log(item);
+              res();
+            },
+            error: (error) => {
+              console.log(error);
+              rej();
+            }
+          });
+        });
+        return promise;
+      });
+    },
+    loadPage: (page) => {
+      let target = $('#root');
+      let _page = `src/views/${page}.html`;
+      $(target).html(_page);
+      $.get(_page, function(data){
+        $(target).html(data);
+      });
+    },
+    loginHandler: () => {
+      $(document).on('submit', '#login-submit', (e) => {
+        e.preventDefault();
+        let _body = {
+          username: $('#login-username').val(),
+          password: $('#login-password').val()
+        };
+        let promise = new Promise((res, rej) => {
+          $.ajax({
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(_body),
+            headers: {
+              "accept": "application/json; odata=verbose",
+            },
+            type: 'POST',
+            url: `${app.baseUrl}/auth/login`,
+            success: (data) => {
+              $('#login-username').val('');
+              $('#login-password').val('');
+              localStorage.setItem('jwToken', data.authToken);
+              res();
+            },
+            error: (error) => {
+              console.log(error);
+              rej();
+            }
+          });
+        });
+        return promise;
+      });
+    },
     openCreate: () => {
       $('#open-create').on('click', (e) => {
         e.preventDefault();
@@ -198,11 +266,46 @@
         });
         return promise;
       });
+    },
+    signUpHandler: () => {
+      $(document).on('submit', '#sign-up-submit', (e) => {
+        e.preventDefault();
+        var body = {
+          firstName: $('#firstName').val(),
+          lastName: $('#lastName').val(),
+          username: $('#username').val(),
+          password: $('#password').val()
+        };
+        let promise = new Promise((res, rej) => {
+          $.ajax({
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(body),
+            headers: {
+              "accept": "application/json; odata=verbose"
+            },
+            type: 'POST',
+            url: `${app.baseUrl}/users/register`,
+            success: (data) => {
+              $('#firstName').empty();
+              $('#lastName').empty();
+              $('#username').empty();
+              $('#password').empty();
+              res();
+            },
+            error: (error) => {
+              console.log(error);
+              rej();
+            }
+          });
+        });
+        return promise;
+      });
     }
   };
 
   $(window).on('load', () => {
     app.init();
+    app.loadPage('landing');
   });
 
 })(window.jQuery);

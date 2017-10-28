@@ -26,50 +26,9 @@ div {
   }
 }
 
-input {
-  .individual & {
-    border: none;
-    background: #f5f5f5;
-    display: block;
-    margin: 6px 0;
-    outline: none;
-    padding: 8px 14px;
-    width: 100%;
-    &.e {
-
-    }
-  }
-}
-
-button {
-  .listitem &,
-  .individual &,
-  .createone & {
-    background: #007db8;
-    border: none;
-    color: white;
-    font-size: 0.775rem;
-    font-weight: 700;
-    margin: 0 4px;
-    outline: none;
-    padding: 4px 12px;
-    @include transition($animate * 2);
-    &:hover {
-      background: crimson;
-    }
-  }
-}
-
 .buttonwrap {
   margin: 26px 0 8px;
   text-align: center;
-}
-
-button {
-  .individual & {
-    font-size: 1.0rem;
-    min-width: 80px;
-  }
 }
 
 .name {
@@ -96,4 +55,10 @@ button {
 
 .createone {
   margin-top: 30px;
+}
+
+.aform {
+  display: inline-block;
+  margin: 16px 64px 0 0;
+  vertical-align: top;
 }

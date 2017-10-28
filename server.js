@@ -9,7 +9,8 @@ mongoose.Promise = global.Promise;
 
 const {PORT, DATABASE_URL} = require('./config');
 
-const {router: authRouter, basicStrategy, jwtStrategy} = require('./auth');
+const {router: authRouter, basicStrategy, localStrategy, jwtStrategy} = require('./auth');
+// const {router: authRouter, basicStrategy, jwtStrategy} = require('./auth');
 const {router: charactersRouter} = require('./characters');
 const {router: usersRouter} = require('./users');
 
@@ -27,7 +28,8 @@ app.use(function(req, res, next) {
 });
 
 app.use(passport.initialize());
-passport.use(basicStrategy);
+// passport.use(basicStrategy);
+passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 
@@ -47,15 +49,9 @@ app.use('/characters', charactersRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 
-app.get(
-  '/protected',
-  passport.authenticate('jwt', {
-    session: false
-  }),
-  (req, res) => {
-    return res.json({
-      data: 'rosebud'
-    });
+app.get('/protected', passport.authenticate('jwt', {
+  session: false}), (req, res) => {
+    return res.json({data: 'rosebud'});
   }
 );
 
