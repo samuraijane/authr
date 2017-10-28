@@ -32,8 +32,13 @@ router.post(
     session: false
   }),
   (req, res) => {
-      const authToken = createAuthToken(req.user.apiRepr());
-      res.json({authToken});
+      const _token = createAuthToken(req.user.apiRepr());
+      const profile = {
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        token: _token
+      }
+      res.json({profile});
   }
 );
 

@@ -2,6 +2,7 @@
 
   var app = {
     baseUrl: 'http://localhost:3001',
+    name: '',
     init: function() {
       app.createOne();
       app.deleteOne();
@@ -10,6 +11,7 @@
       app.getOne();
       app.getProtected();
       app.loginHandler();
+      app.logoutHandler();
       app.openCreate();
       app.putOne();
       app.signUpHandler();
@@ -204,9 +206,11 @@
             type: 'POST',
             url: `${app.baseUrl}/auth/login`,
             success: (data) => {
+              app.name = `${data.profile.firstName} ${data.profile.lastName}`;
               $('#login-username').val('');
               $('#login-password').val('');
-              localStorage.setItem('jwToken', data.authToken);
+              localStorage.setItem('jwToken', data.profile.token);
+              console.log(`Welcome ${app.name}! You are now logged in.`);
               res();
             },
             error: (error) => {
@@ -216,6 +220,14 @@
           });
         });
         return promise;
+      });
+    },
+    logoutHandler: () => {
+      $(document).on('submit', '#do-logout', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('jwToken');
+        console.log(`Goodbye ${app.name}! You are now logged out.`);
+        app.name ='';
       });
     },
     openCreate: () => {
@@ -286,10 +298,11 @@
             type: 'POST',
             url: `${app.baseUrl}/users/register`,
             success: (data) => {
-              $('#firstName').empty();
-              $('#lastName').empty();
-              $('#username').empty();
-              $('#password').empty();
+              console.log(`Thank you ${body.firstName} ${body.lastName}! Your account has been created.`);
+              $('#firstName').val('');
+              $('#lastName').val('');
+              $('#username').val('');
+              $('#password').val('');
               res();
             },
             error: (error) => {
